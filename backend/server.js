@@ -4,6 +4,7 @@ import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 import Messages from './DB_schema.js';
 import Pusher from 'pusher';
+import cors from 'cors'
 
 // app config ==>
 const app = express();
@@ -19,11 +20,7 @@ const pusher = new Pusher({
 
 // middleware ==>
 app.use(express.json());
-app.use((req, res, next) => {
-	res.setHeader('Access-Control-Allow-Origin', '*');
-	res.setHeader('Access-Control-Allow-Headers', '*');
-	next();
-});
+app.use(cors());
 
 // DB config ==>
 const connectionUrl = process.env.DATABASE_URL;
