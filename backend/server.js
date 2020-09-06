@@ -19,6 +19,11 @@ const pusher = new Pusher({
 
 // middleware ==>
 app.use(express.json());
+app.use((req, res, next) => {
+	res.setHeader('Access-Control-Allow-Origin', '*');
+	res.setHeader('Access-Control-Allow-Headers', '*');
+	next();
+});
 
 // DB config ==>
 const connectionUrl = process.env.DATABASE_URL;
@@ -44,7 +49,7 @@ db.once('open', () => {
 			// note that "change" is an object with a number of properties we can use from
 			const messageDetails = change.fullDocument;
 			pusher.trigger('messages', 'inserted', {
-				name: messageDetails.user,
+				name: messageDetails.name,
 				message: messageDetails.message,
 			});
 		} else {
