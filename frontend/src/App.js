@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import './App.css';
 import Sidebar from './components/Sidebar/Sidebar';
 import Chat from './components/Chat/Chat';
-import Pusher from 'pusher-js'
+import Pusher from 'pusher-js';
 
 function App() {
 	useEffect(() => {
@@ -15,7 +15,6 @@ function App() {
 		channel.bind('inserted', (data) => {
 			alert(JSON.stringify(data));
 		});
-
 	}, []);
 	return (
 		<div className="app">
