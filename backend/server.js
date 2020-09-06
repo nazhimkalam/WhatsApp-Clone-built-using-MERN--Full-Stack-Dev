@@ -28,15 +28,25 @@ app.get('/', (req, res) => {
 	res.status(200).send('Hello World');
 });
 
+app.get('/messages/sync', (req, res) => {
+	Messages.find((err, data) => {          // finds all the data from the database and return them
+		if (err) {
+			res.status(500).send(err);      // 500 internal server error
+		} else {
+			res.status(200).send(data);     // 200 this is a created OK
+		}
+	});
+});
+
 app.post('/messages/new', (req, res) => {
 	const dbMessage = req.body;
 	console.log(dbMessage);
 
 	Messages.create(dbMessage, (err, data) => {
 		if (err) {
-			res.status(500).send(err); // internal server error
+			res.status(500).send(err); // 500 internal server error
 		} else {
-			res.status(201).send(data);
+			res.status(201).send(data); // 201 this is a created status
 		}
 	});
 });
