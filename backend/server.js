@@ -28,7 +28,30 @@ mongoose.connect(connectionUrl, {
 	useUnifiedTopology: true,
 });
 
-// Pusher ==>
+const db = mongoose.connection;
+
+db.once('open', () => {
+	console.log('db is connect');
+
+	const msgCollection = db.collection('messagecontents');
+	const changeStream = msgCollection.watch();
+
+	changeStream.on('change', (change) => {
+		// when ever a change occurs the "change" variable will get the data stores of the changed value
+		console.log(' A change occurred ', change);
+
+		if (change.operationType === 'insert') {
+			// note that "change" is an object with a number of properties we can use from
+			const messageDetails = change.fullDocument;
+			pusher.trigger('messages', 'inserted', {
+				name: messageDetails.user,
+				message: messageDetails.message,
+			});
+		} else {
+			console.log('Error triggering pusher');
+		}
+	});
+});
 
 // API routes ==>
 app.get('/', (req, res) => {
