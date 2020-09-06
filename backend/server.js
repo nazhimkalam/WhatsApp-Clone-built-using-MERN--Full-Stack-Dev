@@ -3,12 +3,19 @@ import express from 'express';
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 import Messages from './DB_schema.js';
+import Pusher from 'pusher';
 
 // app config ==>
 const app = express();
 const port = process.env.PORT || 9000;
 dotenv.config();
-// console.log(process.env.DATABASE_URL)
+const pusher = new Pusher({
+	appId: '1067951',
+	key: '4c3e84c47532a02a357d',
+	secret: 'da6ff6b730c7c8cc4efe',
+	cluster: 'eu',
+	encrypted: true,
+});
 
 // middleware ==>
 app.use(express.json());
@@ -21,7 +28,7 @@ mongoose.connect(connectionUrl, {
 	useUnifiedTopology: true,
 });
 
-// ??????? ==>
+// Pusher ==>
 
 // API routes ==>
 app.get('/', (req, res) => {
@@ -29,11 +36,12 @@ app.get('/', (req, res) => {
 });
 
 app.get('/messages/sync', (req, res) => {
-	Messages.find((err, data) => {          // finds all the data from the database and return them
+	Messages.find((err, data) => {
+		// finds all the data from the database and return them
 		if (err) {
-			res.status(500).send(err);      // 500 internal server error
+			res.status(500).send(err); // 500 internal server error
 		} else {
-			res.status(200).send(data);     // 200 this is a created OK
+			res.status(200).send(data); // 200 this is a created OK
 		}
 	});
 });
