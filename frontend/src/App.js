@@ -5,6 +5,11 @@ import Chat from './components/Chat/Chat';
 import Pusher from 'pusher-js';
 
 function App() {
+
+	useEffect(() => {
+	
+	}, [])
+
 	useEffect(() => {
 		// using the backend pusher we are getting the data from mongodb in realtime
 		const pusher = new Pusher('4c3e84c47532a02a357d', {
@@ -16,6 +21,8 @@ function App() {
 			alert(JSON.stringify(data));
 		});
 	}, []);
+
+	
 	return (
 		<div className="app">
 			<div className="app__body">
