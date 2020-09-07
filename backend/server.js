@@ -9,7 +9,7 @@ import cors from 'cors';
 // app config ==>
 const app = express();
 const port = process.env.PORT || 9000;
-// dotenv.config();
+dotenv.config();
 const pusher = new Pusher({
 	appId: '1067951',
 	key: '4c3e84c47532a02a357d',
@@ -23,8 +23,8 @@ app.use(express.json());
 app.use(cors());
 
 // DB config ==>
-// const connectionUrl = process.env.DATABASE_URL;
-const connectionUrl = "mongodb+srv://username:lJHCwya2kHSLfCUL@cluster0.g1bo1.mongodb.net/whatsAppDB?retryWrites=true&w=majority";
+const connectionUrl = process.env.DATABASE_URL;
+
 
 mongoose.connect(connectionUrl, {
 	useCreateIndex: true,
