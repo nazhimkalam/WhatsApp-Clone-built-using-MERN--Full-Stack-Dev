@@ -7,9 +7,9 @@ import MoreVertOutlinedIcon from '@material-ui/icons/MoreVertOutlined';
 import MicIcon from '@material-ui/icons/Mic';
 import InsertEmoticonIcon from '@material-ui/icons/InsertEmoticon';
 
-function Chat() {
-    const [input, setInput] = useState('');
-    
+function Chat({ messages }) {
+	const [input, setInput] = useState('');
+
 	const sendMessage = (e) => {
 		e.preventDefault();
 	};
@@ -39,13 +39,18 @@ function Chat() {
 			</div>
 
 			<div className="chat__body">
-				<p className="chat__message">
-					<span className="chat__name" style={{ color: `hsl(${Math.floor(Math.random() * 361)}, 85%, 45%)` }}>
-						Nazhim Kalam
-					</span>
-					This is a message
-					<span className="chat__timestamp">{new Date().toUTCString()}</span>
-				</p>
+				{messages.map((message) => (
+					<p className={`chat__message ${message.received && 'chat__reciever'}`}>
+						<span
+							className="chat__name"
+							style={{ color: `hsl(${Math.floor(Math.random() * 361)}, 85%, 45%)` }}
+						>
+							{message.name}
+						</span>
+						{message.message}
+						<span className="chat__timestamp">{new Date().toUTCString()}</span>
+					</p>
+				))}
 			</div>
 
 			<div className="chat__footer">
