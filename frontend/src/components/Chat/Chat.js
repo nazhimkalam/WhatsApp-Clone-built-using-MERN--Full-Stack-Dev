@@ -6,12 +6,22 @@ import AttachFileOutlinedIcon from '@material-ui/icons/AttachFileOutlined';
 import MoreVertOutlinedIcon from '@material-ui/icons/MoreVertOutlined';
 import MicIcon from '@material-ui/icons/Mic';
 import InsertEmoticonIcon from '@material-ui/icons/InsertEmoticon';
+import axios from '../../axios';
 
 function Chat({ messages }) {
 	const [input, setInput] = useState('');
 
-	const sendMessage = (e) => {
+	const sendMessage = async(e) => {
 		e.preventDefault();
+
+		await axios.post('/messages/new', {
+			message: input,
+			name: 'demo app',
+			timestamp: 'new timestamp',
+			received: true,
+		});
+
+		setInput('');
 	};
 
 	return (
@@ -48,7 +58,7 @@ function Chat({ messages }) {
 							{message.name}
 						</span>
 						{message.message}
-						<span className="chat__timestamp">{new Date().toUTCString()}</span>
+						<span className="chat__timestamp">{message.timestamp}</span>
 					</p>
 				))}
 			</div>
