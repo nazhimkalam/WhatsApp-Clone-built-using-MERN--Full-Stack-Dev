@@ -4,7 +4,7 @@ import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 import Messages from './DB_schema.js';
 import Pusher from 'pusher';
-import cors from 'cors'
+import cors from 'cors';
 
 // app config ==>
 const app = express();
@@ -36,7 +36,7 @@ db.once('open', () => {
 	console.log('db is connect');
 
 	const msgCollection = db.collection('messagecontents');
-	const changeStream = msgCollection.watch();
+	const changeStream = msgCollection.watch(); // watching for any changes
 
 	changeStream.on('change', (change) => {
 		// when ever a change occurs the "change" variable will get the data stores of the changed value
@@ -48,6 +48,8 @@ db.once('open', () => {
 			pusher.trigger('messages', 'inserted', {
 				name: messageDetails.name,
 				message: messageDetails.message,
+				timestamp: messageDetails.timestamp,
+				received: messageDetails.received,
 			});
 		} else {
 			console.log('Error triggering pusher');
